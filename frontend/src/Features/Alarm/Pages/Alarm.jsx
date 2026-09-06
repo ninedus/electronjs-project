@@ -79,6 +79,7 @@ const Alarm = () => {
         isOpen={isRinging}
         onClose={stopAlarm}
         alarm={ringingAlarm}
+        type="alarm"
       />
     </PageContainer>
   );
