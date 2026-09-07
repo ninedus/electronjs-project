@@ -8,6 +8,7 @@ export const useStopwatchStore = create(
       isRunning: false,
       records: [],
       intervalId: null,
+      startTime: 0,
 
       start: () => {
         const state = get();
@@ -15,11 +16,14 @@ export const useStopwatchStore = create(
 
         if (state.intervalId) clearInterval(state.intervalId);
 
-        const intervalId = setInterval(() => {
-          set((state) => ({ currentTime: state.currentTime + 1 }));
-        }, 1);
+        const newStartTime = Date.now() - state.currentTime;
 
-        set({ isRunning: true, intervalId });
+        const intervalId = setInterval(() => {
+          // set((state) => ({ currentTime: state.currentTime + 1 }));
+          set({ currentTime: Date.now() - get().startTime });
+        }, 10);
+
+        set({ isRunning: true, intervalId, startTime: newStartTime });
       },
 
       stop: () => {
@@ -40,6 +44,7 @@ export const useStopwatchStore = create(
           isRunning: false,
           records: [],
           intervalId: null,
+          startTime: 0,
         });
       },
 
@@ -50,7 +55,7 @@ export const useStopwatchStore = create(
     }),
     {
       name: "stopwatch-storage",
-      partialize: (state) => ({ records: state.records }),
+      partialize: (state) => ({ records: state.records, currentTime: state.currentTime }),
     }
   )
 );

@@ -6,7 +6,6 @@ import { PrimaryButton } from '../../../Shared/Components/Buttons';
 import { useTimerStore } from '../../../Shared/Stores/TimerStore';
 import { useTimeFormat } from '../../../Shared/Hooks';
 import TimerEditModal from '../Components/TimerEditModal';
-import RingModal from '../../../Modal/RingModal';
 
 const Timer = () => {
   const { formatTimerDisplay } = useTimeFormat();
@@ -15,16 +14,12 @@ const Timer = () => {
   
   const {
     currentTime,
-    duration,
     isRunning,
     isPaused,
-    isCompleted,
-    sound,
     startTimer,
     pauseTimer,
     stopTimer,
-    setTimer,
-    resetCompleted
+    setTimer
   } = useTimerStore();
 
   const handleModalSuccess = (settings) => {
@@ -33,10 +28,6 @@ const Timer = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-  };
-
-  const handleRingModalClose = () => {
-    resetCompleted();
   };
 
   return (
@@ -94,13 +85,6 @@ const Timer = () => {
         onClose={handleModalClose}
         onSuccess={handleModalSuccess}
         initialTimer={null}
-      />
-
-      <RingModal
-        isOpen={isCompleted}
-        onClose={handleRingModalClose}
-        alarm={{ sound_id: sound }}
-        type="timer"
       />
     </PageContainer>
   );

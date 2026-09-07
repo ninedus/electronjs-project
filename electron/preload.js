@@ -6,6 +6,11 @@ contextBridge.exposeInMainWorld('electron', {
   },
   onmessage: (channel, callback) => {
     ipcRenderer.on(channel, (_, data) => callback(data));
+  },
+  setAlwaysOnTop: (value) => {
+    ipcRenderer.send('set-always-on-top', value);
+  },
+  focusWindow: () => {
+    ipcRenderer.send('focus-window');
   }
-})
-
+});

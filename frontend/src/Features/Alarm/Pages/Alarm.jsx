@@ -7,20 +7,12 @@ import { useTimeFormat } from "../../../Shared/Hooks";
 import { useAlarmStore } from "../../../Shared/Stores/AlarmStore";
 import AlarmCreateModal from "../Components/AlarmCreateModal";
 import AlarmHistoryModal from "../Components/AlarmHistoryModal";
-import RingModal from "../../../Modal/RingModal";
 
 const Alarm = () => {
   const { formatTime } = useTimeFormat();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
-
-  const { 
-    checkAlarms, 
-    ringingAlarm, 
-    isRinging, 
-    stopAlarm 
-  } = useAlarmStore();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,14 +21,6 @@ const Alarm = () => {
 
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      checkAlarms();
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [checkAlarms]);
 
   return (
     <PageContainer>
@@ -73,13 +57,6 @@ const Alarm = () => {
       <AlarmHistoryModal
         isOpen={isHistoryModalOpen}
         onClose={() => setIsHistoryModalOpen(false)}
-      />
-
-      <RingModal
-        isOpen={isRinging}
-        onClose={stopAlarm}
-        alarm={ringingAlarm}
-        type="alarm"
       />
     </PageContainer>
   );
